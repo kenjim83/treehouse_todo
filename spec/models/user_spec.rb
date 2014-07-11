@@ -5,10 +5,12 @@ describe User do
     {
       first_name: "Kenji",
       last_name: "Miwa",
-      email: "kmiwa@hotmail.com"
+      email: "kmiwa@hotmail.com",
+      password: "123456",
+      password_confirmation: "123456"
     }
   }
-  context User do
+  context "saving a new user" do
     let(:user){ User.new(valid_attributes) }
 
     before do
@@ -26,6 +28,11 @@ describe User do
     it "requires a unique email (case insensitive)" do
       user.email = "KMIWA@HOTMAIL.COM"
       expect(user).to validate_uniqueness_of(:email)
+    end
+
+    it "requires the email address to look like an email" do
+      user.email = "kenji"
+      expect(user).to_not be_valid
     end
 
   end
